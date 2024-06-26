@@ -1,0 +1,81 @@
+stages:  
+- build
+- test
+- report
+- report-publish
+
+sigridci:
+  tags:
+    - SET2024
+  stage: report
+  image:
+    name: softwareimprovementgroup/sigridci
+  script:
+    - sigridci.py --customer utst --system EldoradiansGroup12 --source . 
+  allow_failure: true
+  artifacts:
+    paths:
+      - "sigrid-ci-output/*"
+    reports:
+      junit: "sigrid-ci-output/sigridci-junit-format-report.xml"
+    expire_in: 1 week
+    when: always
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    
+sigridpublish:
+  tags:
+    - SET2024
+  stage: report-publish
+  image:
+    name: softwareimprovementgroup/sigridci 
+  script:
+    - sigridci.py --customer utst --system EldoradiansGroup12 --source . --publish
+  allow_failure: true
+  artifacts:
+    paths:
+      - "sigrid-ci-output/*"
+    expire_in: 1 week
+    when: always
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+gradle:
+  tags:
+    - SET2024
+  stage: build
+  cache:
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+  image:
+    name: gradle:jdk21
+  script:
+    - gradle clean build
+    - gradle test
+  artifacts:
+    paths:
+      - app/build/libs/*.jar
+      - app/build/reports/**/*
+    expire_in: 1 week
+
+gradle-test:
+  tags:
+    - SET2024
+  stage: test
+  cache:
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+  image:
+    name: gradle:jdk21
+  script:
+    - gradle test
+  artifacts:
+    when: always
+    paths:
+      - build/test-results/test
+      - build/reports/tests/test
+    expire_in: 1 week
+  allow_failure: true
+  

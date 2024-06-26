@@ -1,0 +1,4 @@
+component_base_dirs:
+  - "app/src"
+languages:
+  - name: java
