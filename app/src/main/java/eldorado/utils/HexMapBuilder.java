@@ -42,7 +42,7 @@ public class HexMapBuilder implements IHexMapBuilder {
     return hexMap;
   }
 
-  private void buildInitialHex() {
+  public void buildInitialHex() {
     HexConfiguration hex = configMap.getHex(0, 0);
     hexMap.map[0][0] = new GameTile(
         new Integer[] { sideLength * 2, null, null, null, null, null },
@@ -50,7 +50,7 @@ public class HexMapBuilder implements IHexMapBuilder {
         sideLength, hex.type, hex.value).setToken(CaveManager.getInstance().getFourRandomTokens());
   }
 
-  private void buildFirstRow() {
+  public void buildFirstRow() {
     for (int i = 1; i < hexMap.size_r; i++) {
       HexConfiguration hex = configMap.getHex(0, i);
       hexMap.map[0][i] = new GameTile(
@@ -60,14 +60,14 @@ public class HexMapBuilder implements IHexMapBuilder {
     }
   }
 
-  private void buildRemainingRows() {
+  public void buildRemainingRows() {
     for (int j = 1; j < hexMap.size_q; j++) {
       buildHexInFirstColumn(j);
       buildHexInRemainingColumns(j);
     }
   }
 
-  private void buildHexInFirstColumn(int j) {
+  public void buildHexInFirstColumn(int j) {
     HexConfiguration hex = configMap.getHex(j, 0);
     hexMap.map[j][0] = new GameTile(
         new Integer[] { null, null, hexMap.map[j - 1][1].xPoints[0], hexMap.map[j - 1][0].xPoints[1],
@@ -77,7 +77,7 @@ public class HexMapBuilder implements IHexMapBuilder {
         sideLength, hex.type, hex.value).setToken(CaveManager.getInstance().getFourRandomTokens());
   }
 
-  private void buildHexInRemainingColumns(int j) {
+  public void buildHexInRemainingColumns(int j) {
     for (int i = 1; i < hexMap.size_q; i++) {
       HexConfiguration hex = configMap.getHex(j, i);
       if (i == hexMap.size_q - 1) {

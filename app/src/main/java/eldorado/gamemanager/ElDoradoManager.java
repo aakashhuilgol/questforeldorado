@@ -3,6 +3,7 @@ package eldorado.gamemanager;
 import eldorado.models.Card;
 import eldorado.models.GameTile;
 import eldorado.models.HexMap;
+import eldorado.models.HexMapDirector;
 import eldorado.models.Token;
 import eldorado.utils.CardTypes;
 import eldorado.utils.HexMapBuilder;
@@ -46,11 +47,8 @@ public class ElDoradoManager extends GameManager {
 
         String mapFilename = MapGenerator.generateMap(isOriginalMap);
         this.gameMap = MapReader.read(mapFilename, isOriginalMap);
-        ((HexMapBuilder) hexMapBuilder)
-                .setHexMap(this.hex_map)
-                .setSideLength(size)
-                .setConfigMap(gameMap)
-                .build();
+        HexMapDirector director = new HexMapDirector(new HexMapBuilder());
+        this.hex_map = director.construct(this.hex_map, size, gameMap);
         blockades = gameMap.blockades;
     }
 

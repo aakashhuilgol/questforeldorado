@@ -29,3 +29,14 @@ To generate jacoco report, run the following command. The resulting artefacts wi
 ```bash
 ./gradlew jacocoTestReport
 ```
+
+# Playing the game
+To navigate through the map, you can drag and drop in the MapGUI.
+To play the game, select a card that you want to play. Once selected, you can right click on the card, to get the options to play, discard or buy. You can click on play to play the particular card, and then click on the hex tile on the map to move to that position (if possible). Click end turn when you are done with your turn.
+
+# Rules of the game
+
+Rules of the game are taken from :
+https://www.ultraboardgames.com/the-quest-for-el-dorado/game-rules.php
+https://www.ultraboardgames.com/the-quest-for-el-dorado/cards.php
+https://www.ultraboardgames.com/the-quest-for-el-dorado/caves-variant.php
